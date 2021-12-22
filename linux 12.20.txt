@@ -1,0 +1,11 @@
+$ locate *.log // 확장자가 log인 모든 파일을 검색
+
+$ man locate // locate명령어에 대한 설명이 나옴 (--help)
+
+***whereis 명령어 => 해당 명령어가 어느 위치에 있는지 알려줌
+
+$ whereis ls
+
+$ whereis rm
+
+$echo $path => path 환경변수 값 확인

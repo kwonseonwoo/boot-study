@@ -1,0 +1,164 @@
+nano 편집기에서 파일 생성 후 ctrl+z시 멀티태스킹(다중 작업 처리)이 가능
+
+$fg 명령어 실행시 다시 nano 편집기 화면으로 이동
+
+==> 윈도우에서는 GUI를 제공하므로 위 기능이 여러 개의 창을 띄워놓고 작업을
+하는 것과 동일
+
+$jobs 실행시 현재 어떤 프로그램이 백그라운드로 실행되는지 보여줌
++로 표시되어 있는 프로그램은, fg명령어 실행 시 화면에 나타날 프로그램을 의미함
+-는 그 다음 순위에 있는 프로그램을 의미함
+$fg %숫자(ex. %2)시 실행하고자 하는 프로그램을 선택해서 실행 가능
+kill %숫자 시 해당 프로그램 종료
+kill -9 %숫자 시 더욱 강력한 프로그램 종료 명령어
+
+$vim은 $nano와 경쟁관계에 있는 또 다른 파일 편집기
+
+ls -alR / > result.txt 2> error.log & 입력 시 즉시 작업 실행(& 명령어)
+
+****Daemon****
+- 데몬에 해당하는 프로그램은 항상 켜져있음
+(가전제품으로 비유
+-> 냉장고/TV
+
+ls, rm, mkdir과 같은 것은 냉장고와 유사 (필요할 때 켜고 필요 없을 때 끔)
+
+$cd /etc/init.d/ 로 디렉터리 변경 시 데몬에 해당하는 프로그램들이 위치해있는
+디렉터리로 이동
+
+sudo service apache2 start(or stop) (데몬에 해당하는 프로그램을 실행하는 명령어)
+
+데몬 프로그램의 경우 start/stop명령어를 사용해서 실행시킴
+
+****Cron (정기적으로 실행해야 하는 명령의 경우 사용하는 프로그램)
+
+$crontab --help 로 crontab 명령어의 파라미터 내역 확인
+
+$crontab -e 실행하고자하는 프로그램의 crontab으로 이동
+
+$date 현재시각을 알려주는 명령어
+
+$date >> date.log => date명령어를 실행할 때마다 그 결과가 date.log에 추가되도록
+처리하는 명령어
+
+$tail -f 파일명 => 해당 파일에 새로운 라인이 추가될 때 그것의 결과를 보여줌
+(빠져나갈 땐 ctrl+c)
+
+date >> date.log 2>&1
+date >> date.log 명령 실행 시, 에러가 발생했을 때 에러문을 표준 출력으로 처리하여
+date.log에 저장
+
+****쉘에 접속했을 때 특정 명령어가 실행되도록 하는 방법(StartUp Script)
+$ alias l='ls -al' => l 입력시 ls -al 이 실행되도록 별명으로 지정(alias)
+$ unalias <name> 입력시 해당 별칭 삭제
+
+$echo $shell
+$nano .bashrc (.bashrc에는 기본적으로 쉘에 접속했을 때 실행할 프로그램이 작성되어 있음)
+==> 편집기로 이동
+
+$exit 후 재접속했을 때 nano에디터에 입력했던 내용이 출력됨
+
+****다중 사용자 시스템(unix / linux)
+권한, 보안 문제 등 발생 => 기능의 복잡도 증가
+
+$id
+-uid : 유저의 아이디
+-gid : 그룹의 아이디
+
+$who
+현재 시스템에 누가 접속했는지를 보여줌
+
+****리눅스 사용자****
+1. super(root) user - 관리자
+2. user - 일반 사용자 
+
+$sudo apt-get update (관리자가 아닐 때 sudo를 통해 apt-get update 명령어 실행)
+
+ctrl+c 사용할 경우 해당 명령어 실행하지 않고 다음 줄로 이동
+
+$su // $su - root  => 슈퍼 유저로 변경
+
+$ ==> 일반유저 // # ==> 슈퍼유저 (위험하므로, sudo를 통해 명령어를 사용하는 것이 바람직)
+
+$sudo passwd -u root => 락을 품
+$sudo passwd -l root => 락을 걺
+
+락이 걸려있을 때 su - root 실행 시 권한 실패가 뜸
+
+**** 리눅스 내에서 사용자 추가
+
+$ sudo useradd -m duru
+위 명령어를 실행한 사람의 패스워드를 입력해야 함
+
+$ cd /home
+$ ls 시 duru 사용자 디렉터리가 생성된 것을 확인할 수 있음
+
+$su - duru 시 권한 실패가 뜸(패스워드를 지정하지 않았음)
+따라서,
+
+$sudo passwd duru로 패스워드 설정 후,
+$su - duru로 접속
+
+$sudo pwd 실행 시, duru 사용자는 sudo명령어를 사용할 수 없음(지정해주어야 한다)
+
+유저를 수정한다.
+$sudo usermod -a -G sudo duru (sudo라는 그룹에 duru사용자를 추가하였음)
+따라서 duru는 sudo명령어를 사용할 수 있게됨
+$ su - duru
+$sudo pwd
+
+**권한 다시 삭제하기
+$sudo deluser <id> sudo
+
+***** 권한 설정 ***** -- 다중 사용자 시스템과 관련된 내용
+
+***파일 권한설정
+$echo 'hi' > perm.txt  => perm.txt에 hi라는 텍스트를 저장(nano editor를 사용하지
+않고도 파일 수정 가능)
+
+다른 사용자가 동일한 명령어를 통해 특정 텍스트를 perm.txt에 추가하려고 할 경우
+permission denied가 출력됨(권한 설정 필요)
+
+$ chmod o-r perm.txt
+- chmod : access mode를 수정하는 명령어
+- o-r : other(다른 사용자)의 r(read)권한을 삭제하는 명령어
+
+
+***디렉터리 권한설정
+$mkdir perm;cd perm;echo 'hi' > perm.txt
+
+디렉터리 설정에 관련된 r/w/x
+r : 해당 디렉터리를 조회할 수 있는지 여부
+w : 해당 디렉터리 안에 파일을 생성/삭제 할 수 있는지 여부
+x : 해당 디렉터리에 cd명령어를 통해 접근할 수 있는지 여부
+
+$ chmod -R o+w perm
+=> perm 디렉터리 안에 또 다른 디렉터리가 있을 경우 그것에도 동일하게 other사용자
+에게 write권한을 부여하는 명령어(-R)
+
+****8진법을 이용한 권한설정
+
+$ chmod 222 perm.txt 
+
+숫자의 경우 구글에서 검색을 통해 확인할 수 있음 - 검색 후 원하는 권한을 넣어주면 됨
+(순서대로 user/group/other)
+
++,-외에 =을 통해 권한을 정의할 수도 있다
+ex) $ chmod a=rwx perm.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

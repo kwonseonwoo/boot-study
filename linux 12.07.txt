@@ -1,0 +1,96 @@
+***IO Redirection(input/output)
+
+ls -l > result.txt => ls -l의 결과가 result.txt 파일에 저장됨 //Redirection
+(모니터에 출력되는 결과를 돌려서 파일에 저장하는 방법)
+
+파일에 저장된 내용은 $cat result.txt로 확인 가능
+
+*Error 관련 화두
+//만일 example.txt파일이 디렉터리 내에 없을 경우
+rm example.txt => rm에 내장된 에러를 출력
+
+여기서 에러 로그를 Redirection할 경우?
+rm example.txt > result.txt 는 Redirection되지 않고 화면에 에러를 출력
+왜냐하면 Redirection이 standard Output에 대한 Redirection이기 때문
+
+정상적인 방법
+=> rm example.txt 2> error.log
+cat error.log
+
+or
+
+rm example.txt 1> result.txt 2> error.log
+
+***프로그램과 프로세스의 차이
+프로그램은 SSD, HDD에 저장된 것
+프로세스는 현재 실행중인 프로그램
+하나의 프로그램은 여러 개의 프로세스를 가질 수 있음(1:n 관계)
+
+JAVA-Synchronized
+멀티스레딩 방식을 사용할 때 스레드간의 동기화가 이루어지지 않으면
+data의 안정성과 신뢰성을 보장할 수 없음
+따라서 스레드간의 동기화를 실현함으로써 data의 안정성과 신뢰성을 확보
+*유의: 과도한 동기화 사용 -> 시스템의 성능 저하 유발
+
+*cat이 동작하는 방식
+cat만 입력하고 파일명을 입력하지 않았을 시
+이후에 사용자가 입력하는 정보를 Standard Output으로 출력
+빠져나올땐 ctrl+d
+
+1) $cat result.txt를 할 경우
+	result.txt를 command line arguments로 cat에 인자를 전달
+
+2) $cat < result.txt를 할 경우
+	Standard Input으로 cat에게 input한 것
+
+***쉘과 커널
+
+커널 - 하드웨어를 제어
+쉘 - 사용자가 커널을 직접 제어할 수 없으므로 명령어를 입력하면 쉘의 프로그램이 해석
+      하여 커널에게 전달함(명령어 해석기) => 출력결과 확인가능
+
+$echo $0 => 현재 사용중인 shell 확인 가능
+
+***쉘 스크립트(여러 가지의 자동화된 작업 처리 가능)
+
+$ls /bin => 현재 우리가 사용중인 rm, mv, cp 등의 파일리스트 확인 가능
+
+====== 쉘 스크립트 작성 =======
+
+$nano backup
+
+#!/bin/bash
+if ! [ -d bak ]; then         --- 현재 bak이라는 디렉터리가 없다면
+	mkdir bak        --- bak디렉터리 생성
+fi
+cp *.log bak
+
+스크립트 생성 후 ls -l을 하면 backup 파일을 확인 가능
+여기서, $./backup 명령어로 실행할 시 Permission denied 에러가 뜸
+권한 설정이 필요
+
+chmod +x backup => backup파일에 대해 execute(x-실행) 권한 추가(+)
+u/g/o/a
+r/w/x
+
+$cd ~ => 어느 디렉터리에 있든 home디렉터리로 이동 가능
+
+$ps aux 현재 실행중인 프로그램(프로세스) 리스트 확인 가능
+$sudo top 
+
+*****static member*****
+질럿의 공격력 업그레이드 사례를 생각해보자
+각 객체마다 가지고 있어야 하는 고유한 속성이라면 static이 아닌 인스턴스 멤버로
+선언을 해야한다(인스턴스 변수)
+가령, 색깔이 다른 경우 String타입의 변수를 하나 만들어서 각각의 객체마다 고유하게
+색깔을 가질 수 있도록 처리를 해야한다.
+하지만 그럴 필요없는 공용적인 데이터라면, static(정적)멤버로 선언해서 사용해야한다.
+공격력 업그레이드의 경우에도 마찬가지이다.
+공격력이라고 하는 변수는 공용적인 데이터이지, 각 객체마다 고유하게 가져야하는
+값을 가진 변수가 아니다.
+따라서 static멤버로 선언하여 업그레이드를 진행시켜야 한다.
+
+
+
+
+

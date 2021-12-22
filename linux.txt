@@ -16,12 +16,12 @@ man을 사용할 경우 전용페이지로 이동하여 명령어에 대한 해�
 리눅스/유닉스에서는 숨김파일 앞에 . 이 붙음(ls시 출력x)
 그러나 $ls -a // $ls -all시 출력이 됨
 
-내가 리스와 감춰진 파일을 모두 보고싶다면
+내가 리스트와 감춰진 파일을 모두 보고싶다면
 $ls -al 사용
 
 cp cp.txt dir1/cp.txt 현재 디렉터리의 cp.txt 파일을 dir1/cp.txt에 복사한다.
 mv 파일을 이동시킴
-ex) mv 원본파일 이동시킬 위 ==> mv mv.txt dir1/mv.txt
+ex) mv 원본파일 이동시킬 위치 ==> mv mv.txt dir1/mv.txt
 
 *** 중요
 파일 이름을 변경할 때에도 mv명령어를 사용한다.
@@ -69,6 +69,8 @@ $ls --help | grep sort | grep file 파이프를 이중으로 사용하여 내용
 $ps aux 현재 실행중인 프로그램 리스트 출력
 $ps aux | grep apache => apache가 들어간 프로그램 리스트만 출력
 
+$git clone 'url' 사용 시 해당 소스코드의 주소값(url)에 해당하는 자료를
+github로부터 복제해올 수 있음
 
 
 
