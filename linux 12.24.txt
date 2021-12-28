@@ -1,0 +1,117 @@
+*****group*****
+(user/other에 비해 group은 많이 사용하지 않음)
+
+/etc/group 리눅스에서 그룹내역을 확인할 수 있는 파일
+$ nano /etc/group 접속
+
+그룹생성
+sudo groupadd developer
+
+사용자를 그룹에 추가
+sudo usermod -a -G developer <username>
+
+현재 디렉터리의 그룹을 변경
+sudo chown root:developer <directory name>(.은 현재 디렉터리를 의미)
+
+
+--- 인터넷 / 네트워크 / 서버 ---
+
+인터넷 -> request와 response의 동작이 이루어지는 통신 공간(클라이언트 - 서버 사이의 통신)
+
+google.com => 도메인 네임
+
+구글 사이트에 접속하기 위해서는 도메인 네임도 가능하지만, 구글 고유의 ip주소로도
+접근이 가능하다. (domain / ip address)
+
+즉 우리가 웹 브라우저(클라이언트)에서 google.com이라는 도메인 네임을 입력하면
+DNS server에 연결되어 도메인에 해당하는 ip주소를 리턴, 컴퓨터가 인식할 수 있도록
+변환하는 작업을 진행한다.
+
+
+$ ip addr => 해당 컴퓨터의 ip주소 확인 가능
+$ ifconfig
+
+ip는 크게 public address(공인 ip)와 private address(사설 ip)로 나뉠 수 있다.
+
+public address는 통신사에서 연결해준 하나의 회선이며, 가정 내에 여러 개의 기기가 인터넷
+에 연결되어 있을 경우 router(라우터)를 통해 각각의 기기에 인터넷을 보급할 수 있다.
+
+여기서, public address는 라우터의 ip가 되며 라우터에 연결된 각각의 기기에 해당하는
+ip주소는 외부에 공개되지 않는 사설ip가 되는 것이다.
+
+public address와 private address가 다른 경우 해당 컴퓨터는 서버로 사용할 수 없음
+
+
+***웹 서버(Web server)*** Apache tomcat
+
+apache 웹서버 설치
+$ sudo apt-get update (마켓 업데이트)
+$ sudo apt-get install apache2
+
+< $ sudo apt-cache search apache (아파치 이름의 캐시를 검색)>
+
+설치 후 
+$ sudo service apache2 start(stop) 로 실행, 종료 가능
+
+$ sudo htop 후 F4클릭 후 apache 검색 시 설치가 잘 되어있는지 확인 가능
+
+$ elinks 설치 후 사용 시 쉘 환경 안에서 웹 브라우저 사용 가능
+
+
+리눅스 내에서 웹서버 동작 절차
+
+아파치 설치 후 
+사용자가 ip(localhost , 127.0.0.1)를 입력하였을 때 웹 서버는 
+/etc/apache2 디렉터리 안에 설정 파일을 참고하여 스토리지의 어떤 파일을 리턴해줄지 결정 후
+ 그것을 웹 브라우저에 보냄으로써 사용자에게 화면을 제공
+
+****원격 제어(ssh)****
+윈도우에서 팀뷰어를 사용하는 것과 유사
+접속하려는 대상 컴퓨터는 ssh server를, 접속 주체는 ssh client를 설치해야 한다.
+
+$ sudo apt-get remove <file-name> or
+$ sudo apt-get purge <file-name> -- 환경설정까지 삭제하는 명령어
+
+//ssh 서버 시작 후 잘 작동되는지 프로세스 내역 확인
+$ sudo service ssh start
+$ sudo ps aux | grep ssh 
+
+****포트****
+0~1024 well-known program들 ex) ssh, web server 등 인프라가 갖춰져있는 프로그램
+
+****포트 포워딩(forwarding)****
+
+외부의 사용자가 라우터를 통해 사설ip를 사용하는 컴퓨터의 서버에 접속하는 방법 => 
+포트 포워딩을 활용한다.
+
+가령, 외부 사용자가 웹브라우저에 xxx.xx.xx.xx:8000을 입력할 경우
+라우터 환경설정에 8000 -> 사설ip를 쓰는 컴퓨터의 ip주소:사용하고자 하는 포트번호
+로 설정을 지정할 경우
+해당 컴퓨터의 해당 포트번호를 인식해서 서버컴퓨터에 접속하게되고, 그곳에서 리턴된
+값을 외부 사용자가 웹 브라우저를 통해 받아볼 수 있다.
+
+$ip route => default gateway값 확인 가능 --- NAT와 관련되어있음
+
+****연속적인 명령어 처리에 사용되는 기호(; , &&, &)
+
+; : 앞의 명령어의 처리결과에 관계없이 순차적으로 명령이 실행됨
+ex) mkdir test;cd test
+
+&&: 앞의 명령어의 처리결과가 참인 경우에만 뒤의 명령어가 실행됨
+
+$echo $? => 이전에 사용한 명령어의 반환값을 알려줌
+0: 성공적
+1: 실행되지 않았을 경우
+127: 존재하지 않는 명령어를 사용했을 경우 
+
+
+
+
+
+
+
+
+
+
+
+
